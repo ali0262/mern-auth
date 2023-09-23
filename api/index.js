@@ -5,6 +5,8 @@ import colors from "colors";
 import morgan from "morgan";
 import connectDB from "./db/connection.js";
 import userRoutes from "./routes/user.route.js";
+import authRoutes from "./routes/auth.route.js";
+import errorHandler from "./middlewares/errorHandler.js";
 
 dotenv.config({ path: ".env" });
 const app = express();
@@ -15,6 +17,12 @@ app.use(morgan("dev"));
 const port = process.env.PORT || 3000;
 
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/auth", authRoutes);
+
+app.use("*", (req, res) => {
+  res.status(404).json({ message: "This Route Not Found in This Server!..." });
+});
+app.use(errorHandler);
 
 const start = async () => {
   try {
