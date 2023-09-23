@@ -22,7 +22,10 @@ const errorHandler = (err, req, res, next) => {
     customError.statusCode = 404;
   }
 
-  return res.status(customError.statusCode).json({ msg: customError.msg });
+  const { msg: message, statusCode } = customError;
+  const status = `${statusCode}`.startsWith("4") ? "fail" : "error";
+
+  return res.status(statusCode).json({ status, message });
 };
 
 export default errorHandler;

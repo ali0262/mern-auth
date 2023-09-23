@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import colors from "colors";
 import morgan from "morgan";
+import cors from "cors";
+// !===================================================================\\
 import connectDB from "./db/connection.js";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
@@ -14,8 +16,6 @@ const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
 
-const port = process.env.PORT || 3000;
-
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/auth", authRoutes);
 
@@ -24,6 +24,7 @@ app.use("*", (req, res) => {
 });
 app.use(errorHandler);
 
+const port = process.env.PORT || 3000;
 const start = async () => {
   try {
     const conn = await connectDB(process.env.MONGODB_URL);
