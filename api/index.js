@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import colors from "colors";
 import morgan from "morgan";
 import connectDB from "./db/connection.js";
+import userRoutes from "./routes/user.route.js";
 
 dotenv.config({ path: ".env" });
 const app = express();
@@ -12,6 +13,8 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 const port = process.env.PORT || 3000;
+
+app.use("/api/v1/users", userRoutes);
 
 const start = async () => {
   try {
